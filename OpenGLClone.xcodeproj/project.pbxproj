@@ -11,6 +11,8 @@
 		E35A51D51E37396F0060AC63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51D41E37396F0060AC63 /* main.m */; };
 		E35A51D71E37396F0060AC63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E35A51D61E37396F0060AC63 /* Assets.xcassets */; };
 		E35A51DA1E37396F0060AC63 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35A51D81E37396F0060AC63 /* MainMenu.xib */; };
+		E35A51EB1E373B780060AC63 /* TGAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51E81E373B780060AC63 /* TGAColor.m */; };
+		E35A51EC1E373B780060AC63 /* TGAImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51EA1E373B780060AC63 /* TGAImage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,10 @@
 		E35A51D61E37396F0060AC63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E35A51D91E37396F0060AC63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E35A51DB1E37396F0060AC63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E35A51E71E373B780060AC63 /* TGAColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAColor.h; sourceTree = "<group>"; };
+		E35A51E81E373B780060AC63 /* TGAColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAColor.m; sourceTree = "<group>"; };
+		E35A51E91E373B780060AC63 /* TGAImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAImage.h; sourceTree = "<group>"; };
+		E35A51EA1E373B780060AC63 /* TGAImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAImage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,10 @@
 		E35A51CF1E37396F0060AC63 /* OpenGLClone */ = {
 			isa = PBXGroup;
 			children = (
+				E35A51E71E373B780060AC63 /* TGAColor.h */,
+				E35A51E81E373B780060AC63 /* TGAColor.m */,
+				E35A51E91E373B780060AC63 /* TGAImage.h */,
+				E35A51EA1E373B780060AC63 /* TGAImage.m */,
 				E35A51D01E37396F0060AC63 /* AppDelegate.h */,
 				E35A51D11E37396F0060AC63 /* AppDelegate.m */,
 				E35A51D61E37396F0060AC63 /* Assets.xcassets */,
@@ -141,7 +151,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E35A51EC1E373B780060AC63 /* TGAImage.m in Sources */,
 				E35A51D51E37396F0060AC63 /* main.m in Sources */,
+				E35A51EB1E373B780060AC63 /* TGAColor.m in Sources */,
 				E35A51D21E37396F0060AC63 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
