@@ -7,15 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E332AD3A1E3798FD004520B1 /* TGAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E332AD391E3798FD004520B1 /* TGAColor.m */; };
+		E34801B11E3B307D00D58CD3 /* DrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B01E3B307D00D58CD3 /* DrawingFunctions.m */; };
+		E34801B41E3B318800D58CD3 /* HelpFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B31E3B318800D58CD3 /* HelpFunctions.m */; };
+		E34801B71E3B3EEE00D58CD3 /* WFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B61E3B3EEE00D58CD3 /* WFModel.m */; };
+		E34801BA1E3B717900D58CD3 /* GeometryHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B91E3B717900D58CD3 /* GeometryHelpers.m */; };
 		E35A51D21E37396F0060AC63 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51D11E37396F0060AC63 /* AppDelegate.m */; };
 		E35A51D51E37396F0060AC63 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51D41E37396F0060AC63 /* main.m */; };
 		E35A51D71E37396F0060AC63 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E35A51D61E37396F0060AC63 /* Assets.xcassets */; };
 		E35A51DA1E37396F0060AC63 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35A51D81E37396F0060AC63 /* MainMenu.xib */; };
-		E35A51EB1E373B780060AC63 /* TGAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51E81E373B780060AC63 /* TGAColor.m */; };
 		E35A51EC1E373B780060AC63 /* TGAImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E35A51EA1E373B780060AC63 /* TGAImage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E332AD381E3798FD004520B1 /* TGAColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAColor.h; sourceTree = "<group>"; };
+		E332AD391E3798FD004520B1 /* TGAColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAColor.m; sourceTree = "<group>"; };
+		E34801AF1E3B307D00D58CD3 /* DrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingFunctions.h; sourceTree = "<group>"; };
+		E34801B01E3B307D00D58CD3 /* DrawingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingFunctions.m; sourceTree = "<group>"; };
+		E34801B21E3B318800D58CD3 /* HelpFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpFunctions.h; sourceTree = "<group>"; };
+		E34801B31E3B318800D58CD3 /* HelpFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpFunctions.m; sourceTree = "<group>"; };
+		E34801B51E3B3EEE00D58CD3 /* WFModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WFModel.h; sourceTree = "<group>"; };
+		E34801B61E3B3EEE00D58CD3 /* WFModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WFModel.m; sourceTree = "<group>"; };
+		E34801B81E3B717900D58CD3 /* GeometryHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometryHelpers.h; sourceTree = "<group>"; };
+		E34801B91E3B717900D58CD3 /* GeometryHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometryHelpers.m; sourceTree = "<group>"; };
 		E35A51CD1E37396F0060AC63 /* OpenGLClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenGLClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35A51D01E37396F0060AC63 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E35A51D11E37396F0060AC63 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -23,8 +37,6 @@
 		E35A51D61E37396F0060AC63 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E35A51D91E37396F0060AC63 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E35A51DB1E37396F0060AC63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E35A51E71E373B780060AC63 /* TGAColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAColor.h; sourceTree = "<group>"; };
-		E35A51E81E373B780060AC63 /* TGAColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAColor.m; sourceTree = "<group>"; };
 		E35A51E91E373B780060AC63 /* TGAImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAImage.h; sourceTree = "<group>"; };
 		E35A51EA1E373B780060AC63 /* TGAImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAImage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -59,10 +71,18 @@
 		E35A51CF1E37396F0060AC63 /* OpenGLClone */ = {
 			isa = PBXGroup;
 			children = (
-				E35A51E71E373B780060AC63 /* TGAColor.h */,
-				E35A51E81E373B780060AC63 /* TGAColor.m */,
+				E34801B81E3B717900D58CD3 /* GeometryHelpers.h */,
+				E34801B91E3B717900D58CD3 /* GeometryHelpers.m */,
+				E34801B21E3B318800D58CD3 /* HelpFunctions.h */,
+				E34801B31E3B318800D58CD3 /* HelpFunctions.m */,
+				E34801AF1E3B307D00D58CD3 /* DrawingFunctions.h */,
+				E34801B01E3B307D00D58CD3 /* DrawingFunctions.m */,
+				E332AD381E3798FD004520B1 /* TGAColor.h */,
+				E332AD391E3798FD004520B1 /* TGAColor.m */,
 				E35A51E91E373B780060AC63 /* TGAImage.h */,
 				E35A51EA1E373B780060AC63 /* TGAImage.m */,
+				E34801B51E3B3EEE00D58CD3 /* WFModel.h */,
+				E34801B61E3B3EEE00D58CD3 /* WFModel.m */,
 				E35A51D01E37396F0060AC63 /* AppDelegate.h */,
 				E35A51D11E37396F0060AC63 /* AppDelegate.m */,
 				E35A51D61E37396F0060AC63 /* Assets.xcassets */,
@@ -151,9 +171,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E332AD3A1E3798FD004520B1 /* TGAColor.m in Sources */,
+				E34801B11E3B307D00D58CD3 /* DrawingFunctions.m in Sources */,
+				E34801B41E3B318800D58CD3 /* HelpFunctions.m in Sources */,
+				E34801BA1E3B717900D58CD3 /* GeometryHelpers.m in Sources */,
 				E35A51EC1E373B780060AC63 /* TGAImage.m in Sources */,
 				E35A51D51E37396F0060AC63 /* main.m in Sources */,
-				E35A51EB1E373B780060AC63 /* TGAColor.m in Sources */,
+				E34801B71E3B3EEE00D58CD3 /* WFModel.m in Sources */,
 				E35A51D21E37396F0060AC63 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +326,7 @@
 				E35A51E01E37396F0060AC63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

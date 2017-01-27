@@ -8,14 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TGAColor : NSObject
+typedef struct {
+	union {
+		struct {
+			uint8_t b, g, r, a;
+		};
+		uint8_t raw[4];
+		uint32_t val;
+	};
+	int bytespp;
+} TGAColor;
 
-@property (nonatomic, readonly) unsigned char r;
-@property (nonatomic, readonly) unsigned char g;
-@property (nonatomic, readonly) unsigned char b;
-@property (nonatomic, readonly) unsigned char a;
-
-@property (nonatomic, readonly) unsigned char raw[4];
-
-
-@end
+extern TGAColor TGAColorCreate();
+extern TGAColor TGAColorCreateRGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
+extern TGAColor TGAColorCreateWithValue(uint32_t value, int bytespp);
+extern TGAColor TGAColorCopy(TGAColor color);
+extern TGAColor TGAColorCreateWithComponents(uint8_t *p, int bytespp);
+extern void TGAColorCopyValues(TGAColor from, TGAColor to);
