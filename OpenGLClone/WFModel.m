@@ -225,8 +225,39 @@
 	fclose(fp);
 }
 
+- (NSString *)convertToNSStringLine:(char *)line length:(size_t)length {
+	NSString *originalStr = [NSString stringWithCString:line encoding:NSUTF8StringEncoding];
+	NSMutableString *str = [NSMutableString string];
+	size_t index = 0;
+	while ([originalStr characterAtIndex:index] == ' ' ||
+		   [originalStr characterAtIndex:index] == '\t') {
+		index++;
+		if (index >= length) {
+			return @"";
+		}
+	}
+	while (index < length) {
+		if ([originalStr characterAtIndex:index] == ' ') {
+			[str appendString:[originalStr substringWithRange:NSMakeRange(index, 1)]];
+			while ([originalStr characterAtIndex:index] == ' ' ||
+				   [originalStr characterAtIndex:index] == '\t') {
+				index++;
+				if (index >= length) {
+					return str;
+				}
+			}
+		} else if ([originalStr characterAtIndex:index] != '\n') {
+			[str appendString:[originalStr substringWithRange:NSMakeRange(index, 1)]];
+			index++;
+		} else {
+			index++;
+		}
+	}
+	return str;
+}
+
 - (BOOL)parseVertex:(WFVertex *)vertex fromLine:(char *)line length:(size_t)length {
-	NSString *str = [[[NSString alloc] initWithCString:line encoding:NSUTF8StringEncoding] substringWithRange:NSMakeRange(0, length-1)];
+	NSString *str = [self convertToNSStringLine:line length:length];
 	NSArray<NSString *> *components = [str componentsSeparatedByString:@" "];
 	if (components.count < 4) {
 		return NO;
@@ -247,7 +278,7 @@
 }
 
 - (BOOL)parseTextureCoordinate:(WFTextureCoordinate *)coordinate fromLine:(char *)line length:(size_t)length {
-	NSString *str = [[[NSString alloc] initWithCString:line encoding:NSUTF8StringEncoding] substringWithRange:NSMakeRange(0, length-1)];
+	NSString *str = [self convertToNSStringLine:line length:length];
 	NSArray<NSString *> *components = [str componentsSeparatedByString:@" "];
 	if (components.count < 3) {
 		return NO;
@@ -267,7 +298,7 @@
 }
 
 - (BOOL)parseNormal:(WFNormal *)normal fromLine:(char *)line length:(size_t)length {
-	NSString *str = [[[NSString alloc] initWithCString:line encoding:NSUTF8StringEncoding] substringWithRange:NSMakeRange(0, length-1)];
+	NSString *str = [self convertToNSStringLine:line length:length];
 	NSArray<NSString *> *components = [str componentsSeparatedByString:@" "];
 	if (components.count < 4) {
 		return NO;
@@ -288,7 +319,7 @@
 }
 
 - (BOOL)parseFaceElement:(WFFaceElement *)faceElement fromLine:(char *)line length:(size_t)length {
-	NSString *str = [[[NSString alloc] initWithCString:line encoding:NSUTF8StringEncoding] substringWithRange:NSMakeRange(0, length-1)];
+	NSString *str = [self convertToNSStringLine:line length:length];
 	NSArray<NSString *> *components = [str componentsSeparatedByString:@" "];
 	if (components.count < 4) {
 		return NO;

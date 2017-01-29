@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E32819961E3BD9CC0027B9AC /* ZBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = E32819951E3BD9CC0027B9AC /* ZBuffer.m */; };
 		E332AD3A1E3798FD004520B1 /* TGAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E332AD391E3798FD004520B1 /* TGAColor.m */; };
 		E34801B11E3B307D00D58CD3 /* DrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B01E3B307D00D58CD3 /* DrawingFunctions.m */; };
 		E34801B41E3B318800D58CD3 /* HelpFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B31E3B318800D58CD3 /* HelpFunctions.m */; };
@@ -20,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E32819941E3BD9CC0027B9AC /* ZBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBuffer.h; sourceTree = "<group>"; };
+		E32819951E3BD9CC0027B9AC /* ZBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBuffer.m; sourceTree = "<group>"; };
 		E332AD381E3798FD004520B1 /* TGAColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TGAColor.h; sourceTree = "<group>"; };
 		E332AD391E3798FD004520B1 /* TGAColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAColor.m; sourceTree = "<group>"; };
 		E34801AF1E3B307D00D58CD3 /* DrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingFunctions.h; sourceTree = "<group>"; };
@@ -83,6 +86,8 @@
 				E35A51EA1E373B780060AC63 /* TGAImage.m */,
 				E34801B51E3B3EEE00D58CD3 /* WFModel.h */,
 				E34801B61E3B3EEE00D58CD3 /* WFModel.m */,
+				E32819941E3BD9CC0027B9AC /* ZBuffer.h */,
+				E32819951E3BD9CC0027B9AC /* ZBuffer.m */,
 				E35A51D01E37396F0060AC63 /* AppDelegate.h */,
 				E35A51D11E37396F0060AC63 /* AppDelegate.m */,
 				E35A51D61E37396F0060AC63 /* Assets.xcassets */,
@@ -174,6 +179,7 @@
 				E332AD3A1E3798FD004520B1 /* TGAColor.m in Sources */,
 				E34801B11E3B307D00D58CD3 /* DrawingFunctions.m in Sources */,
 				E34801B41E3B318800D58CD3 /* HelpFunctions.m in Sources */,
+				E32819961E3BD9CC0027B9AC /* ZBuffer.m in Sources */,
 				E34801BA1E3B717900D58CD3 /* GeometryHelpers.m in Sources */,
 				E35A51EC1E373B780060AC63 /* TGAImage.m in Sources */,
 				E35A51D51E37396F0060AC63 /* main.m in Sources */,
