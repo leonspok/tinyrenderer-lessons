@@ -61,3 +61,58 @@ BOOL LPTriangleContainsPoint2D(LPTriangle triangle, LPPoint point) {
 	}
 	return YES;
 }
+
+LPTransform LPTransformIdentity() {
+	return (LPTransform){
+		.matrix = {1, 0, 0, 0,
+				   0, 1, 0, 0,
+				   0, 0, 1, 0,
+				   0, 0, 0, 1}
+	};
+}
+
+LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform) {
+	float vector[4] = {
+		originalVector.dx,
+		originalVector.dy,
+		originalVector.dz,
+		0
+	};
+	float output[4] = {0,0,0,0};
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			output[i] += vector[j]*transform.matrix[i][j];
+		}
+	}
+//	for (int i = 0; i < 3; i++) {
+//		output[i] /= output[3];
+//	}
+	return (LPVector) {
+		.dx = output[0],
+		.dy = output[1],
+		.dz = output[2]
+	};
+}
+
+LPPoint LPPointApplyTransform(LPPoint originalPoint, LPTransform transform) {
+	float point[4] = {
+		originalPoint.x,
+		originalPoint.y,
+		originalPoint.z,
+		1
+	};
+	float output[4] = {0,0,0,0};
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			output[i] += point[j]*transform.matrix[i][j];
+		}
+	}
+	for (int i = 0; i < 3; i++) {
+		output[i] /= output[3];
+	}
+	return (LPPoint) {
+		.x = output[0],
+		.y = output[1],
+		.z = output[2]
+	};
+}

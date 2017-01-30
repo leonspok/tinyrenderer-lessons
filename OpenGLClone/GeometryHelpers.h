@@ -9,16 +9,30 @@
 #import <Foundation/Foundation.h>
 
 typedef struct {
-	float x, y, z;
+	union {
+		struct {
+			float x, y, z;
+		};
+		float v[3];
+	};
 } LPPoint;
 
 typedef struct {
-	float dx, dy, dz;
+	union {
+		struct {
+			float dx, dy, dz;
+		};
+		float v[3];
+	};
 } LPVector;
 
 typedef struct {
 	LPPoint vertices[3];
 } LPTriangle;
+
+typedef struct {
+	float matrix[4][4];
+} LPTransform;
 
 extern float LPVectorCrossProduct(LPVector v1, LPVector v2);
 extern LPVector LPVectorsNormal(LPVector v1, LPVector v2);
@@ -26,3 +40,9 @@ extern LPVector LPVectorNormalize(LPVector v);
 extern float LPVectorDotProduct(LPVector v1, LPVector v2);
 
 extern BOOL LPTriangleContainsPoint2D(LPTriangle triangle, LPPoint point);
+
+extern LPTransform LPTransformIdentity();
+
+extern LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform);
+extern LPPoint LPPointApplyTransform(LPPoint originalPoint, LPTransform transform);
+

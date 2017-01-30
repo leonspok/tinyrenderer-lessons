@@ -44,4 +44,6 @@ typedef struct {
 - (WFNormal *)normalForIndex:(NSUInteger)index;
 - (WFFaceElement *)faceElementForIndex:(NSUInteger)index;
 
+- (void)applyTransform:(LPTransform)transform;
+
 @end

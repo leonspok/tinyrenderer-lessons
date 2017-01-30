@@ -27,7 +27,12 @@
 	int depth = 2000;
 	
 	WFModel *model = [WFModel new];
+	
+	LPTransform transform = LPTransformIdentity();
+	transform.matrix[3][2] = -1/(10.0f);
+	
 	[model loadFromFile:@"/Users/igorsavelev/Desktop/african_head.obj"];
+	[model applyTransform:transform];
 	//[model loadFromFile:@"/Users/igorsavelev/Downloads/mini_obj.obj"];
 	
 	LPVector lightVector = (LPVector) {

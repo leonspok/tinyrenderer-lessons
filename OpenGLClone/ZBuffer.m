@@ -30,10 +30,18 @@
 }
 
 - (float)valueForX:(size_t)x y:(size_t)y {
-	return self->buffer[x+y*self.width];
+	size_t index = x+y*self.width;
+	if (index < self.width*self.height) {
+		return self->buffer[index];
+	} else {
+		return 0;
+	}
 }
 - (void)setValue:(float)value forX:(size_t)x y:(size_t)y {
-	self->buffer[x+y*self.width] = value;
+	size_t index = x+y*self.width;
+	if (index < self.width*self.height) {
+		self->buffer[index] = value;
+	}
 }
 
 @end
