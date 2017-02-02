@@ -109,31 +109,6 @@
 	return &self->faceElements[index-1];
 }
 
-#pragma mark Transform
-
-- (void)applyTransform:(LPTransform)transform {
-	for (int i = 1; i <= [self vCount]; i++) {
-		WFVertex *vertex = [self vertexForIndex:i];
-		if (vertex == NULL) {
-			continue;
-		}
-		LPPoint point = LPPointApplyTransform(*vertex, transform);
-		vertex->x = point.x;
-		vertex->y = point.y;
-		vertex->z = point.z;
-	}
-	for (int i = 1; i <= [self vnCount]; i++) {
-		WFNormal *normal = [self normalForIndex:i];
-		if (normal == NULL) {
-			continue;
-		}
-		LPVector vector = LPVectorApplyTransform(*normal, transform);
-		normal->dx = vector.dx;
-		normal->dy = vector.dy;
-		normal->dz = vector.dz;
-	}
-}
-
 #pragma mark Parsing
 
 - (void)loadFromFile:(NSString *)path {

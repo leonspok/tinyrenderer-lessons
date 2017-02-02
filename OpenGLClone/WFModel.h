@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TGAImage.h"
 #import "GeometryHelpers.h"
 
 typedef LPPoint WFVertex;
@@ -39,11 +40,11 @@ typedef struct {
 @property (nonatomic, readonly) NSUInteger vnCount;
 @property (nonatomic, readonly) NSUInteger fCount;
 
+@property (nonatomic, strong) TGAImage *diffuseTexture;
+
 - (WFVertex *)vertexForIndex:(NSUInteger)index;
 - (WFTextureCoordinate *)textureCoordinateForIndex:(NSUInteger)index;
 - (WFNormal *)normalForIndex:(NSUInteger)index;
 - (WFFaceElement *)faceElementForIndex:(NSUInteger)index;
-
-- (void)applyTransform:(LPTransform)transform;
 
 @end

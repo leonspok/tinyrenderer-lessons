@@ -42,7 +42,11 @@ extern float LPVectorDotProduct(LPVector v1, LPVector v2);
 extern BOOL LPTriangleContainsPoint2D(LPTriangle triangle, LPPoint point);
 
 extern LPTransform LPTransformIdentity();
+extern LPTransform LPTransformMultiply(LPTransform tr1, LPTransform tr2);
 
 extern LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform);
 extern LPPoint LPPointApplyTransform(LPPoint originalPoint, LPTransform transform);
+
+extern LPTransform createMoveCameraTransform(LPPoint eyePoint, LPPoint cameraTarget, LPVector vertical);
+extern LPTransform createViewPort(LPPoint point, int width, int height, int depth);
 

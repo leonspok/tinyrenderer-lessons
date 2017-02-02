@@ -71,6 +71,20 @@ LPTransform LPTransformIdentity() {
 	};
 }
 
+LPTransform LPTransformMultiply(LPTransform tr1, LPTransform tr2) {
+	LPTransform tr = {};
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			float val = 0;
+			for (int t = 0; t < 4; t++) {
+				val += tr1.matrix[i][t]*tr2.matrix[t][j];
+			}
+			tr.matrix[i][j] = val;
+		}
+	}
+	return tr;
+}
+
 LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform) {
 	float vector[4] = {
 		originalVector.dx,
@@ -84,9 +98,6 @@ LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform) 
 			output[i] += vector[j]*transform.matrix[i][j];
 		}
 	}
-//	for (int i = 0; i < 3; i++) {
-//		output[i] /= output[3];
-//	}
 	return (LPVector) {
 		.dx = output[0],
 		.dy = output[1],
@@ -115,4 +126,37 @@ LPPoint LPPointApplyTransform(LPPoint originalPoint, LPTransform transform) {
 		.y = output[1],
 		.z = output[2]
 	};
+}
+
+LPTransform createMoveCameraTransform(LPPoint eyePoint, LPPoint cameraTarget, LPVector vertical) {
+	LPVector z = (LPVector) {
+		.dx = eyePoint.x-cameraTarget.x,
+		.dy = eyePoint.y-cameraTarget.y,
+		.dz = eyePoint.z-cameraTarget.z
+	};
+	z = LPVectorNormalize(z);
+	
+	LPVector x = LPVectorNormalize(LPVectorsNormal(vertical, z));
+	LPVector y = LPVectorNormalize(LPVectorsNormal(z, x));
+	
+	LPTransform res = LPTransformIdentity();
+	for (int i = 0; i < 3; i++) {
+		res.matrix[0][i] = x.v[i];
+		res.matrix[1][i] = y.v[i];
+		res.matrix[2][i] = z.v[i];
+		res.matrix[i][3] = -cameraTarget.v[i];
+	}
+	return res;
+}
+
+LPTransform createViewPort(LPPoint point, int width, int height, int depth) {
+	LPTransform transform = LPTransformIdentity();
+	transform.matrix[0][3] = point.x+width/2.0f;
+	transform.matrix[1][3] = point.y+height/2.0f;
+	transform.matrix[2][3] = depth/2.0f;
+	
+	transform.matrix[0][0] = width/2.0f;
+	transform.matrix[1][1] = height/2.0f;
+	transform.matrix[2][2] = depth/2.0f;
+	return transform;
 }
