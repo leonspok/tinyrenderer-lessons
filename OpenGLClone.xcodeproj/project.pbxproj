@@ -11,6 +11,7 @@
 		E32819961E3BD9CC0027B9AC /* ZBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = E32819951E3BD9CC0027B9AC /* ZBuffer.m */; };
 		E332AD3A1E3798FD004520B1 /* TGAColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E332AD391E3798FD004520B1 /* TGAColor.m */; };
 		E34430351E44BD3A00F1CBBB /* TextureShader.m in Sources */ = {isa = PBXBuildFile; fileRef = E34430341E44BD3A00F1CBBB /* TextureShader.m */; };
+		E34430381E45157A00F1CBBB /* PhongShader.m in Sources */ = {isa = PBXBuildFile; fileRef = E34430371E45157A00F1CBBB /* PhongShader.m */; };
 		E34801B11E3B307D00D58CD3 /* DrawingFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B01E3B307D00D58CD3 /* DrawingFunctions.m */; };
 		E34801B41E3B318800D58CD3 /* HelpFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B31E3B318800D58CD3 /* HelpFunctions.m */; };
 		E34801B71E3B3EEE00D58CD3 /* WFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E34801B61E3B3EEE00D58CD3 /* WFModel.m */; };
@@ -32,6 +33,8 @@
 		E332AD391E3798FD004520B1 /* TGAColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TGAColor.m; sourceTree = "<group>"; };
 		E34430331E44BD3A00F1CBBB /* TextureShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureShader.h; sourceTree = "<group>"; };
 		E34430341E44BD3A00F1CBBB /* TextureShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureShader.m; sourceTree = "<group>"; };
+		E34430361E45157A00F1CBBB /* PhongShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhongShader.h; sourceTree = "<group>"; };
+		E34430371E45157A00F1CBBB /* PhongShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhongShader.m; sourceTree = "<group>"; };
 		E34801AF1E3B307D00D58CD3 /* DrawingFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingFunctions.h; sourceTree = "<group>"; };
 		E34801B01E3B307D00D58CD3 /* DrawingFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingFunctions.m; sourceTree = "<group>"; };
 		E34801B21E3B318800D58CD3 /* HelpFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpFunctions.h; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 				E325FCCE1E437D840028217B /* GouraudShader.m */,
 				E34430331E44BD3A00F1CBBB /* TextureShader.h */,
 				E34430341E44BD3A00F1CBBB /* TextureShader.m */,
+				E34430361E45157A00F1CBBB /* PhongShader.h */,
+				E34430371E45157A00F1CBBB /* PhongShader.m */,
 				E35A51D01E37396F0060AC63 /* AppDelegate.h */,
 				E35A51D11E37396F0060AC63 /* AppDelegate.m */,
 				E35A51D61E37396F0060AC63 /* Assets.xcassets */,
@@ -195,6 +200,7 @@
 				E32819961E3BD9CC0027B9AC /* ZBuffer.m in Sources */,
 				E34801BA1E3B717900D58CD3 /* GeometryHelpers.m in Sources */,
 				E35A51EC1E373B780060AC63 /* TGAImage.m in Sources */,
+				E34430381E45157A00F1CBBB /* PhongShader.m in Sources */,
 				E35A51D51E37396F0060AC63 /* main.m in Sources */,
 				E34430351E44BD3A00F1CBBB /* TextureShader.m in Sources */,
 				E34801B71E3B3EEE00D58CD3 /* WFModel.m in Sources */,

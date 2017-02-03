@@ -13,6 +13,7 @@
 #import "HelpFunctions.h"
 #import "GouraudShader.h"
 #import "TextureShader.h"
+#import "PhongShader.h"
 
 @interface AppDelegate ()
 
@@ -21,8 +22,8 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	int width = 800;
-	int height = 800;
+	int width = 2000;
+	int height = 2000;
 	int depth = 255;
 	
 	LPPoint eyePoint = (LPPoint) {.x = 1, .y = 1, .z = 3};
@@ -106,9 +107,12 @@
 	[headNormalMap readTGAFileAtPath:@"/Users/igorsavelev/Xcode Projects/Others/OpenGLClone/obj/african_head/african_head_nm.tga"];
 	[headNormalMap flipVertically];
 	headModel.normalMap = headNormalMap;
+	headModel.specularMap = [TGAImage new];
+	[headModel.specularMap readTGAFileAtPath:@"/Users/igorsavelev/Xcode Projects/Others/OpenGLClone/obj/african_head/african_head_spec.tga"];
+	[headModel.specularMap flipVertically];
 	
 	//id<Shader> shader = [[GouraudShader alloc] initWithModel:model transform:transform lightDirection:lightVector];
-	id<Shader> headTextureShader = [[TextureShader alloc] initWithModel:headModel projection:projection viewPort:viewPort modelView:cameraMove lightDirection:lightVector];
+	id<Shader> headTextureShader = [[PhongShader alloc] initWithModel:headModel projection:projection viewPort:viewPort modelView:cameraMove lightDirection:lightVector];
 	
 	time = CFAbsoluteTimeGetCurrent();
 	drawModel(headModel, headTextureShader, zBuffer, image);

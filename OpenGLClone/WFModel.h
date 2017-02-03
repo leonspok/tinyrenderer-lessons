@@ -42,6 +42,7 @@ typedef struct {
 
 @property (nonatomic, strong) TGAImage *diffuseTexture;
 @property (nonatomic, strong) TGAImage *normalMap;
+@property (nonatomic, strong) TGAImage *specularMap;
 
 - (WFVertex *)vertexForIndex:(NSUInteger)index;
 - (WFTextureCoordinate *)textureCoordinateForIndex:(NSUInteger)index;
