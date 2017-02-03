@@ -7,6 +7,7 @@
 //
 
 #import "GeometryHelpers.h"
+#import "HelpFunctions.h"
 
 float LPVectorCrossProduct(LPVector v0, LPVector v1) {
 	return v0.dy*v1.dz+v0.dz*v1.dx+v0.dx*v1.dy-v0.dy*v1.dx-v0.dx*v1.dz-v0.dz*v1.dy;
@@ -38,6 +39,15 @@ float LPVectorDotProduct(LPVector v1, LPVector v2) {
 	return v1.dx*v2.dx+v1.dy*v2.dy+v1.dz*v2.dz;
 }
 
+LPVector interpolateVector(LPVector from, LPVector to, float coef) {
+	LPVector vector = { .v = {0, 0, 0} };
+	for (int i = 0; i < 3; i++) {
+		vector.v[i] = from.v[i]+(to.v[i]-from.v[i])*coef;
+	}
+	return vector;
+}
+
+
 BOOL LPTriangleContainsPoint2D(LPTriangle triangle, LPPoint point) {
 	bool signs[3];
 	for (int i = 0; i < 3; i++) {
@@ -60,6 +70,14 @@ BOOL LPTriangleContainsPoint2D(LPTriangle triangle, LPPoint point) {
 		}
 	}
 	return YES;
+}
+
+LPPoint interpolatePoint(LPPoint from, LPPoint to, float coef) {
+	LPPoint point = { .v = {0, 0, 0} };
+	for (int i = 0; i < 3; i++) {
+		point.v[i] = from.v[i]+(to.v[i]-from.v[i])*coef;
+	}
+	return point;
 }
 
 LPTransform LPTransformIdentity() {
@@ -85,46 +103,122 @@ LPTransform LPTransformMultiply(LPTransform tr1, LPTransform tr2) {
 	return tr;
 }
 
-LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform) {
-	float vector[4] = {
-		originalVector.dx,
-		originalVector.dy,
-		originalVector.dz,
-		0
-	};
-	float output[4] = {0,0,0,0};
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			output[i] += vector[j]*transform.matrix[i][j];
+float computeMinor(LPTransform tr, int i, int j) {
+	float matrix[3][3];
+	int ix = 0;
+	for (int u = 0; u < 4; u++) {
+		if (u == i) {
+			continue;
+		}
+		int jx = 0;
+		for (int v = 0; v < 4; v++) {
+			if (v == j) {
+				continue;
+			}
+			matrix[ix][jx] = tr.matrix[u][v];
+			jx++;
+		}
+		ix++;
+	}
+	float def = 0;
+	for (int u = 0; u < 6; u++) {
+		bool secondPart = u >= 3;
+		float d = 1.0f;
+		for (int v = 0; v < 3; v++) {
+			if (secondPart) {
+				d *= matrix[(u-v)%3][v];
+			} else {
+				d *= matrix[(u+v)%3][v];
+			}
+		}
+		if (secondPart) {
+			def -= d;
+		} else {
+			def += d;
 		}
 	}
-	return (LPVector) {
-		.dx = output[0],
-		.dy = output[1],
-		.dz = output[2]
+	return def*powf(-1, i+j);
+}
+
+LPTransform LPTranformInverseTranspose(LPTransform tr) {
+	float addMatrix[4][4];
+	float def = 0;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			addMatrix[i][j] = computeMinor(tr, i, j);
+		}
+		def += tr.matrix[0][i]*addMatrix[0][i];
+	}
+	for (int i = 0; i < 4; i++) {
+		for (int j = i+1; j < 4; j++) {
+			SWAP(addMatrix[i][j], addMatrix[j][i]);
+		}
+	}
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			addMatrix[i][j] /= def;
+		}
+	}
+	LPTransform inversedTransposed = {};
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			inversedTransposed.matrix[i][j] = addMatrix[j][i];
+		}
+	}
+	return inversedTransposed;
+}
+
+LPVector LPVectorApplyTransform(LPVector originalVector, LPTransform transform) {
+	LP4DCoordinate coordinate = {
+		.v = {
+			originalVector.dx,
+			originalVector.dy,
+			originalVector.dz,
+			0
+		}
 	};
+	LP4DCoordinate output = LP4DCoordinateApplyTransform(coordinate, transform);
+	return LPVectorFrom4DCoordinate(output);
 }
 
 LPPoint LPPointApplyTransform(LPPoint originalPoint, LPTransform transform) {
-	float point[4] = {
-		originalPoint.x,
-		originalPoint.y,
-		originalPoint.z,
-		1
+	LP4DCoordinate coordinate = {
+		.v = {
+			originalPoint.x,
+			originalPoint.y,
+			originalPoint.z,
+			1
+		}
 	};
-	float output[4] = {0,0,0,0};
+	LP4DCoordinate output = LP4DCoordinateApplyTransform(coordinate, transform);
+	return LPPointFrom4DCoordinate(output);
+}
+
+LP4DCoordinate LP4DCoordinateApplyTransform(LP4DCoordinate originalCoordinate, LPTransform transform) {
+	LP4DCoordinate output = {
+		.v = {0,0,0,0}
+	};
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			output[i] += point[j]*transform.matrix[i][j];
+			output.v[i] += originalCoordinate.v[j]*transform.matrix[i][j];
 		}
 	}
-	for (int i = 0; i < 3; i++) {
-		output[i] /= output[3];
-	}
+	return output;
+}
+
+LPPoint LPPointFrom4DCoordinate(LP4DCoordinate coordinate) {
 	return (LPPoint) {
-		.x = output[0],
-		.y = output[1],
-		.z = output[2]
+		.v = {
+			coordinate.v[0]/coordinate.v[3],
+			coordinate.v[1]/coordinate.v[3],
+			coordinate.v[2]/coordinate.v[3]
+		}
+	};
+}
+
+LPVector LPVectorFrom4DCoordinate(LP4DCoordinate coordinate) {
+	return (LPVector) {
+		.v = {coordinate.v[0], coordinate.v[1], coordinate.v[2]}
 	};
 }
 
@@ -159,4 +253,22 @@ LPTransform createViewPort(LPPoint point, int width, int height, int depth) {
 	transform.matrix[1][1] = height/2.0f;
 	transform.matrix[2][2] = depth/2.0f;
 	return transform;
+}
+
+LPBaricentricCoordinate LPBaricentricCoordinateForPoint(LPPoint point, LPTriangle triangle) {
+	LPVector s[2];
+	for (int i = 0; i < 2; i++) {
+		s[i].v[0] = triangle.vertices[2].v[i]-triangle.vertices[0].v[i];
+		s[i].v[1] = triangle.vertices[1].v[i]-triangle.vertices[0].v[i];
+		s[i].v[2] = triangle.vertices[0].v[i]-point.v[i];
+	}
+	LPVector u = LPVectorNormalize(LPVectorsNormal(s[0], s[1]));
+	if (ABS(u.v[2]) > FLT_EPSILON) {
+		return (LPBaricentricCoordinate) {
+			.v = { (1.0f-(u.dx+u.dy)/u.dz), u.dy/u.dz, u.dx/u.dz }
+		};
+	}
+	return (LPBaricentricCoordinate) {
+		.v = { -1, 1, 1}
+	};
 }

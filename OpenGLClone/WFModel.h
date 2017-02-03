@@ -41,6 +41,7 @@ typedef struct {
 @property (nonatomic, readonly) NSUInteger fCount;
 
 @property (nonatomic, strong) TGAImage *diffuseTexture;
+@property (nonatomic, strong) TGAImage *normalMap;
 
 - (WFVertex *)vertexForIndex:(NSUInteger)index;
 - (WFTextureCoordinate *)textureCoordinateForIndex:(NSUInteger)index;

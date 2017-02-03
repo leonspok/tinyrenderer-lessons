@@ -131,175 +131,62 @@ void drawTriangle(LPTriangle tr, TGAImage *image, TGAColor color, ZBuffer *zBuff
 	}
 };
 
-float computeIntesity(LPVector lightDirection, LPVector normal) {
-	float intensity = LPVectorDotProduct(normal, lightDirection);
-	if (intensity <= 0) {
-		return 0;
-	}
-	return intensity;
-}
-
-LPPoint interpolatePoint(LPPoint from, LPPoint to, float coef) {
-	LPPoint point = { .v = {0, 0, 0} };
+void drawFaceElement(WFModel *model, NSUInteger faceElementIx, id<Shader> shader, ZBuffer *zBuffer, TGAImage *image) {	
+	LPTriangle tr = {};
+	LP4DCoordinate coordinates[3];
 	for (int i = 0; i < 3; i++) {
-		point.v[i] = from.v[i]+(to.v[i]-from.v[i])*coef;
+		coordinates[i] = [shader vertextForFaceElementAtIndex:faceElementIx part:i];
+		tr.vertices[i] = LPPointFrom4DCoordinate(coordinates[i]);
 	}
-	return point;
-}
 
-LPVector interpolateVector(LPVector from, LPVector to, float coef) {
-	LPVector vector = { .v = {0, 0, 0} };
-	for (int i = 0; i < 3; i++) {
-		vector.v[i] = from.v[i]+(to.v[i]-from.v[i])*coef;
-	}
-	return vector;
-}
-
-void drawFaceElement(WFModel *model, LPTransform transform, WFFaceElement faceElement, LPVector lightDirection, int width, int height, int depth, ZBuffer *zBuffer, TGAImage *image) {
+	LPPoint bboxmin = {
+		.v = {HUGE_VALF, HUGE_VALF, 0}
+	};
+	LPPoint bboxmax = {
+		.v = {-HUGE_VALF, -HUGE_VALF, 0}
+	};
 	
-	LPTriangle tr;
-	LPTriangle textureTriangle;
-	LPVector normals[3];
-	float intesities[3];
 	for (int i = 0; i < 3; i++) {
-		WFVertex *vPointer = [model vertexForIndex:faceElement.parts[i].vertexIx];
-		if (vPointer == NULL) {
-			NSLog(@"No vertex for index %ld", (long)faceElement.parts[i].vertexIx);
-			continue;
+		for (int j = 0; j < 2; j++) {
+			bboxmin.v[j] = MIN(bboxmin.v[j], tr.vertices[i].v[j]);
+			bboxmax.v[j] = MAX(bboxmax.v[j], tr.vertices[i].v[j]);
 		}
-		tr.vertices[i] = *vPointer;
-		tr.vertices[i] = LPPointApplyTransform(tr.vertices[i], transform);
-		for (int j = 0; j < 3; j++) {
-			tr.vertices[i].v[j] = roundf(tr.vertices[i].v[j]);
-		}
-		
-		WFTextureCoordinate *cPointer = [model textureCoordinateForIndex:faceElement.parts[i].textureCoordinateIx];
-		if (cPointer == NULL) {
-			NSLog(@"No vertex for index %ld", (long)faceElement.parts[i].textureCoordinateIx);
-			continue;
-		}
-		if (model.diffuseTexture != NULL) {
-			textureTriangle.vertices[i] = (LPPoint) {
-				.x = roundf(((*cPointer).u)*[model.diffuseTexture getWidth]),
-				.y = roundf(((*cPointer).v)*[model.diffuseTexture getHeight]),
-				.z = 1
+	}
+	
+	for (int x = bboxmin.x; x < bboxmax.x; x++) {
+		for (int y = bboxmin.y; y < bboxmax.y; y++) {
+			LPBaricentricCoordinate barScreen = LPBaricentricCoordinateForPoint((LPPoint){.v = {x, y, 0}}, tr);
+			LPBaricentricCoordinate barClip = {
+				.x = barScreen.x/coordinates[0].v[3],
+				.y = barScreen.y/coordinates[1].v[3],
+				.z = barScreen.z/coordinates[2].v[3]
 			};
-		}
-		
-		WFNormal *nPointer = [model normalForIndex:faceElement.parts[i].normalIx];
-		if (nPointer == NULL) {
-			NSLog(@"No normal for index %ld", (long)faceElement.parts[i].normalIx);
-			continue;
-		}
-		normals[i] = *nPointer;
-		
-		intesities[i] = computeIntesity(lightDirection, normals[i]);
-	}
-
-	if (tr.vertices[0].y > tr.vertices[1].y) {
-		SWAP(tr.vertices[0], tr.vertices[1]);
-		SWAP(textureTriangle.vertices[0], textureTriangle.vertices[1]);
-		SWAP(normals[0], normals[1]);
-		SWAP(intesities[0], intesities[1]);
-	}
-	if (tr.vertices[0].y > tr.vertices[2].y) {
-		SWAP(tr.vertices[0], tr.vertices[2]);
-		SWAP(textureTriangle.vertices[0], textureTriangle.vertices[2]);
-		SWAP(normals[0], normals[2]);
-		SWAP(intesities[0], intesities[2]);
-	}
-	if (tr.vertices[1].y > tr.vertices[2].y) {
-		SWAP(tr.vertices[1], tr.vertices[2]);
-		SWAP(textureTriangle.vertices[1], textureTriangle.vertices[2]);
-		SWAP(normals[1], normals[2]);
-		SWAP(intesities[1], intesities[2]);
-	}
-
-	int totalHeight = (int)roundf(tr.vertices[2].y-tr.vertices[0].y);
-	if (totalHeight == 0) {
-		return;
-	}
-	int verticalThreshold = (int)roundf(tr.vertices[1].y-tr.vertices[0].y);
-	BOOL horizontalBottomLine = (int)roundf(tr.vertices[1].y) == (int)roundf(tr.vertices[0].y);
-	int segmentHeights[2] = { verticalThreshold, (int)roundf(tr.vertices[2].y-tr.vertices[1].y)};
-	for (int i = 0; i < totalHeight; i++) {
-		BOOL secondHalf = horizontalBottomLine || i > verticalThreshold;
-		int segmentHeight = segmentHeights[(int)secondHalf];
-		float alphaCoef = (float)i/totalHeight;
-		float betaCoef = 1;
-		if (segmentHeight > 0) {
-			if (secondHalf) {
-				betaCoef = (float)(i - (tr.vertices[1].y-tr.vertices[0].y))/segmentHeight;
-			} else {
-				betaCoef = (float)(i)/segmentHeight;
+			float barClipSum = barClip.x+barClip.y+barClip.z;
+			for (int k = 0; k < 3; k++) {
+				barClip.v[k] /= barClipSum;
 			}
-		}
-		LPPoint pA = interpolatePoint(tr.vertices[0], tr.vertices[2], alphaCoef);
-		LPPoint ptA = interpolatePoint(textureTriangle.vertices[0], textureTriangle.vertices[2], alphaCoef);
-		float intA = intesities[0]+(intesities[2]-intesities[0])*alphaCoef;
-		LPPoint pB, ptB;
-		float intB;
-		if (secondHalf) {
-			pB = interpolatePoint(tr.vertices[1], tr.vertices[2], betaCoef);
-			ptB = interpolatePoint(textureTriangle.vertices[1], textureTriangle.vertices[2], betaCoef);
-			intB = intesities[1]+(intesities[2]-intesities[1])*betaCoef;
-		} else {
-			pB = interpolatePoint(tr.vertices[0], tr.vertices[1], betaCoef);
-			ptB = interpolatePoint(textureTriangle.vertices[0], textureTriangle.vertices[1], betaCoef);
-			intB = intesities[0]+(intesities[1]-intesities[0])*betaCoef;
-		}
-		
-		if (pA.x > pB.x) {
-			SWAP(pA, pB);
-			SWAP(ptA, ptB);
-			SWAP(intA, intB);
-		}
-		int st = (int)roundf(pA.x), fn = (int)roundf(pB.x);
-		int baseY = (int)roundf(tr.vertices[0].y);
-		for (int j = st; j <= fn; j++) {
-			float phi;
-			if (fn == st) {
-				phi = 1.0f;
-			} else {
-				phi = (j-st)/(float)(fn-st);
+			float fragDepth = 0;
+			for (int k = 0; k < 3; k++) {
+				fragDepth += coordinates[k].v[2]/coordinates[k].v[3]*barClip.v[k];
 			}
-			
-			LPPoint p = interpolatePoint(pA, pB, phi);
-			float zValue = p.z;
-			int x = j, y = baseY+i;
-			
-			LPPoint pt = interpolatePoint(ptA, ptB, phi);
-			int u = (int)roundf(pt.x);
-			int v = (int)roundf(pt.y);
-			
-			
-			float intensity = intA+(intB-intA)*phi;
-			uint8_t grayValue = (uint8_t)roundf(intensity*255);
-			TGAColor fillColor = TGAColorCreateRGBA(grayValue, grayValue, grayValue, 255);
-			
-			if ([zBuffer valueForX:x y:y] < zValue) {
-				[zBuffer setValue:zValue forX:x y:y];
-				if (model.diffuseTexture != NULL) {
-					fillColor = [model.diffuseTexture getColorAtX:u y:v];
-					fillColor.r *= intensity;
-					fillColor.g *= intensity;
-					fillColor.b *= intensity;
-				}
-				[image setColor:fillColor toX:x y:y];
+			if (barScreen.x < 0 || barScreen.y < 0 || barScreen.z < 0 || [zBuffer valueForX:x y:y] > fragDepth) {
+				continue;
+			}
+			TGAColor color = TGAColorCreate();
+			if (![shader fragment:barClip color:&color]) {
+				[zBuffer setValue:(float)fragDepth forX:x y:y];
+				[image setColor:color toX:x y:y];
 			}
 		}
 	}
 }
 
-void drawModel(WFModel *model, LPTransform transform, LPVector lightDirection, int width, int height, int depth, TGAImage *image) {
-	ZBuffer *zBuffer = [[ZBuffer alloc] initWithWidth:width height:height];
+void drawModel(WFModel *model, id<Shader> shader, ZBuffer *zBuffer, TGAImage *image) {
 	for (int i = 1; i <= model.fCount; i++) {
-		WFFaceElement *fePointer = [model faceElementForIndex:i];
-		if (fePointer == NULL) {
+		if ([model faceElementForIndex:i] == NULL) {
 			NSLog(@"No face element for index %d", i);
 			continue;
 		}
-		WFFaceElement faceElement = *fePointer;
-		drawFaceElement(model, transform, faceElement, lightDirection, width, height, depth, zBuffer, image);
+		drawFaceElement(model, i, shader, zBuffer, image);
 	}
 };

@@ -10,8 +10,9 @@
 #import "GeometryHelpers.h"
 #import "ZBuffer.h"
 #import "WFModel.h"
+#import "Shader.h"
 
 extern void drawLine(LPPoint p0, LPPoint p1, TGAImage *image, TGAColor color);
 extern void drawTriangle(LPTriangle triangle, TGAImage *image, TGAColor color, ZBuffer *zBuffer);
 
-extern void drawModel(WFModel *model, LPTransform transform, LPVector lightDirection, int width, int height, int depth, TGAImage *image);
+extern void drawModel(WFModel *model, id<Shader> shader, ZBuffer *zBuffer, TGAImage *image);
